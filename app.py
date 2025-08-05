@@ -745,7 +745,6 @@ async def get_feedback_stats():
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to get feedback stats: {str(e)}")
 
-# Run the application
 if __name__ == "__main__":
     print("🚀 Starting Text Classification API Server...")
     print("📊 Make sure your model files are in the same directory:")
@@ -753,10 +752,11 @@ if __name__ == "__main__":
     print("   - text_vectorizer.pkl")
     print("\n🌐 The web interface will be available at: http://localhost:8000")
     print("📖 API documentation will be at: http://localhost:8000/docs")
+    port = int(os.environ.get("PORT", 8000))
     uvicorn.run(
         app, 
         host="0.0.0.0", 
-        port=8000,
+        port=port,
         reload=False,
         log_level="info"
     )
