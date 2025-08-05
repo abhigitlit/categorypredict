@@ -43,6 +43,27 @@ class FeedbackInput(BaseModel):
     predicted_category: str
     correct_category: str
     confidence: float
+cat2label = {
+  "Average": 0,
+  "Profit and Loss": 1,
+  "Percentage": 2,
+  "Work and Time": 3,
+  "Problems on Ages": 4,
+  "Permutation & Combination": 5,
+  "Number Series": 6,
+  "Simplification": 7,
+  "LCM & HCF": 8,
+  "Partnership": 9,
+  "Approximation": 10,
+  "Simple Interest": 11,
+  "Speed and Distance": 12,
+  "Boats and Streams": 13,
+  "Mixtures and Alligations": 14,
+  "Ratio and Proportion": 15,
+  "Algebra": 16,
+  "Probability": 17
+}
+label2cat = {value: key for key, value in cat2label.items()}
 
 # Text Classification Model Service
 class ModelService:
@@ -96,17 +117,15 @@ class ModelService:
             # Get probabilities
             probabilities = self.model.predict_proba(text_vectorized)[0]
             confidence = float(max(probabilities))
-            
-            # Create probability dictionary
             all_probs = {}
             if return_probabilities:
                 for i, category in enumerate(self.model.classes_):
-                    all_probs[str(category)] = float(probabilities[i])
-            
+                    all_probs[label2cat[category]] = float(probabilities[i])
+            top_5_probs = dict(list(all_probs.items())[:5])
             return {
-                "predicted_category": str(prediction),
+                "predicted_category": label2cat[prediction],
                 "confidence": confidence,
-                "all_probabilities": all_probs
+                "all_probabilities": top_5_probs
             }
             
         except Exception as e:
@@ -734,7 +753,6 @@ if __name__ == "__main__":
     print("   - text_vectorizer.pkl")
     print("\n🌐 The web interface will be available at: http://localhost:8000")
     print("📖 API documentation will be at: http://localhost:8000/docs")
-    
     uvicorn.run(
         app, 
         host="0.0.0.0", 
