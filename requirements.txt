@@ -3,10 +3,10 @@ uvicorn
 torch
 transformers
 joblib
+typing
 logging
-uvivorn
+uvicorn
+pydantic
 os
 json
 datetime
-pydantic
-typing
