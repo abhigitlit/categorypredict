@@ -7,6 +7,4 @@ typing
 logging
 uvicorn
 pydantic
-os
-json
 datetime
