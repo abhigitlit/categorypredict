@@ -2,4 +2,11 @@ fastapi
 uvicorn
 torch
 transformers
-    
+joblib
+logging
+uvivorn
+os
+json
+datetime
+pydantic
+typing
